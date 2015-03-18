@@ -1,0 +1,1 @@
+sudo mount -t cifs -o user=$USER,domain=fhcrc,uid=$UID,gid=$GID //fhdata/crdshared/Pul_CC/this\ lab\ folder/ /mnt/mymntdir/
