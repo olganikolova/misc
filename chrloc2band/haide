@@ -1,0 +1,14 @@
+#!/bin/bash
+cat tmp6 | while read LINE; do 
+	PARS=$(echo $LINE | awk '{print $2"\t"$3"\t"$4}')
+	
+	ZA=$(cat cytoBand.txt | bedops -e 1 - <(echo -e $PARS))
+	
+	WOW=$(echo $ZA | awk '{print $4 }' | awk '{print substr($0,0,1)}' | head -1) # some probes map to multiple bands; we choose the first probe for simplicity (sometimes on both sides of the centromere i.e. p and q)
+	
+	if [ -z "$WOW" ]; then # some probes do not map to a known band (one would think that they should; perhaps a matter of subsequent reannotation)
+		echo $LINE" xxx"
+	else
+		echo $LINE" "$WOW
+	fi
+done >c_arm_atmp3
