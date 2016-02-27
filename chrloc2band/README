@@ -1,0 +1,21 @@
+# get bands (cytobands) from chromosome location
+# used for plotting ccle copy number data
+
+INFILE=CCLE-input-file # original seg copy number file from ccle
+
+# get the chrom, stat and end columns
+cat INFILE | awk ‘{print $2, $3, $4}’ > tmp1
+
+# add string “chr” to chromosome name
+sed -e ’s/^/chr/‘ tmp1 > tmp2
+
+# add sample names back in
+cat INFILE | awk ‘{print $1 }’ >tmp4
+
+# add last 2 cols
+cat INFILE | awk ‘{print $5, $6 }’ >tmp5
+
+paste -d' ' tmp4 tmp2 tmp5 >tmp6
+
+# get bands using bedops
+./haide
